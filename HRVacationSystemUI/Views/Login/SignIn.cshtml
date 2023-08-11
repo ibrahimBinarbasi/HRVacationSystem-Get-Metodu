@@ -1,0 +1,44 @@
+﻿﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-8 offset-2 offset-2">
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>DİKKAT!</strong> @ViewBag.ErrorMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["ProfilePageError"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>DİKKAT!</strong> @TempData["ProfilePageError"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @using (Html.BeginForm("SignIn", "Login", FormMethod.Post, new
+        {
+            @style = "color:blue",
+            @class = "form-horizontal"
+        }))
+        {
+            <h4>Giriş Yapabilirsiniz...</h4>
+
+            <label>Email:</label>
+            <input type="text" name="txtEmail" class="form-control" required /> <br />
+
+            @Html.Label("Parola:")
+            @Html.TextBox("txtPassword", null, new { @type = "password", @class = "form-control", required = "required" })
+            <br />
+            <input type="submit" value="GİRİŞ YAP" class="btn btn-primary" />
+
+            @Html.ActionLink("KAYIT OL","Register","Login",new {@class="btn btn-info"})
+        }
+    </div>
+</div>

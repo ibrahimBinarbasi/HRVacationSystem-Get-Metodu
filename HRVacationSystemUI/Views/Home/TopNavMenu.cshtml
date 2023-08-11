@@ -1,0 +1,57 @@
+﻿@using HRVacationSystemDL
+@model Personel
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div class="container">
+        @Html.ActionLink("HR VACATION", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li>@Html.ActionLink("Anasayfa", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("Hakkımızda", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                <li>@Html.ActionLink("İletişim", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+
+                @if (Convert.ToBoolean(TempData["IsBusinessAnalyst"]) == true || @TempData["IsTeamLeader"] is true || TempData["IsCEO"] is true)
+                {
+                    <li>
+                        @Html.ActionLink("Test Maddeleri", "Index", "Test", new { area = "" }, new
+                        {
+                            @class
+               = "nav-link"
+                        })
+                    </li>
+
+                    <li>@Html.ActionLink("Developer Takımları", "Index", "Leader", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+                @if (@TempData["IsDeveloper"] is true || TempData["IsCEO"] is true)
+                {
+                    <li>@Html.ActionLink("Geliştirme Maddeleri", "Task", "Developer", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+
+                @if (TempData["IsCEO"] is true)
+                {
+                    <li>@Html.ActionLink("Raporlar", "Index", "Report", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+
+
+                @if (string.IsNullOrEmpty(HttpContext.Current.User.Identity.Name))
+                {
+
+                    <li>@Html.ActionLink("Giriş Yap", "SignIn", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+                else
+                {
+            <li>@Html.ActionLink($"{Model.Name} {Model.Surname.ToUpper()}", "Profile", "Personel", 
+                new { email = Model.Email }, new { @class = "nav-link" })
+                
+                </li>
+                    <li>@Html.ActionLink("Çıkış Yap", "SignOut", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

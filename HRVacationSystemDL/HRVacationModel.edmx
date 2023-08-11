@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRVacationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Personel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="WorkStartDate" Type="datetime" />
+          <Property Name="WorkEndDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ProfilePicture" Type="nvarchar(max)" />
+          <Property Name="Salt" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PersonelRole">
+          <Key>
+            <PropertyRef Name="PersonelId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="PersonelId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="RelatedSeniorId" Type="int" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PersonelVacation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="PersonelId" Type="int" Nullable="false" />
+          <Property Name="VacationTypeId" Type="int" Nullable="false" />
+          <Property Name="VacationStartDate" Type="datetime" />
+          <Property Name="VacationEndDate" Type="datetime" />
+          <Property Name="IsDone" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="VacationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__PersonelR__Perso__4D94879B">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1" />
+          <End Role="PersonelRole" Type="Self.PersonelRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelRole">
+              <PropertyRef Name="PersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonelR__RoleI__4E88ABD4">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="PersonelRole" Type="Self.PersonelRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelVacation_Personel">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1" />
+          <End Role="PersonelVacation" Type="Self.PersonelVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelVacation">
+              <PropertyRef Name="PersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelVacation_Vacation">
+          <End Role="VacationType" Type="Self.VacationType" Multiplicity="1" />
+          <End Role="PersonelVacation" Type="Self.PersonelVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacationType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelVacation">
+              <PropertyRef Name="VacationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRVacationModelStoreContainer">
+          <EntitySet Name="Personel" EntityType="Self.Personel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonelRole" EntityType="Self.PersonelRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonelVacation" EntityType="Self.PersonelVacation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VacationType" EntityType="Self.VacationType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__PersonelR__Perso__4D94879B" Association="Self.FK__PersonelR__Perso__4D94879B">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelRole" EntitySet="PersonelRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonelR__RoleI__4E88ABD4" Association="Self.FK__PersonelR__RoleI__4E88ABD4">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="PersonelRole" EntitySet="PersonelRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelVacation_Personel" Association="Self.FK_PersonelVacation_Personel">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelVacation" EntitySet="PersonelVacation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelVacation_Vacation" Association="Self.FK_PersonelVacation_Vacation">
+            <End Role="VacationType" EntitySet="VacationType" />
+            <End Role="PersonelVacation" EntitySet="PersonelVacation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRVacationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Personel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="WorkStartDate" Type="DateTime" Precision="3" />
+          <Property Name="WorkEndDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PersonelRole" Relationship="Self.FK__PersonelR__Perso__3C69FB99" FromRole="Personel" ToRole="PersonelRole" />
+          <NavigationProperty Name="PersonelVacation" Relationship="Self.FK__PersonelV__Perso__440B1D61" FromRole="Personel" ToRole="PersonelVacation" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PersonelRole">
+          <Key>
+            <PropertyRef Name="PersonelId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="PersonelId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RelatedSeniorId" Type="Int32" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Personel" Relationship="Self.FK__PersonelR__Perso__3C69FB99" FromRole="PersonelRole" ToRole="Personel" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__PersonelR__RoleI__3D5E1FD2" FromRole="PersonelRole" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="PersonelVacation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PersonelId" Type="Int32" Nullable="false" />
+          <Property Name="VacationTypeId" Type="Int32" Nullable="false" />
+          <Property Name="VacationStartDate" Type="DateTime" Precision="3" />
+          <Property Name="VacationEndDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDone" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Personel" Relationship="Self.FK__PersonelV__Perso__440B1D61" FromRole="PersonelVacation" ToRole="Personel" />
+          <Property Name="IsApproved" Type="Boolean" />
+          <NavigationProperty Name="VacationType" Relationship="HRVacationModel.FK__PersonelV__Vacat__7D439ABD" FromRole="PersonelVacation" ToRole="VacationType" />
+          <NavigationProperty Name="VacationType1" Relationship="HRVacationModel.FK_PersonelVacation_VacationType" FromRole="PersonelVacation" ToRole="VacationType" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PersonelRole" Relationship="Self.FK__PersonelR__RoleI__3D5E1FD2" FromRole="Role" ToRole="PersonelRole" />
+        </EntityType>
+        <EntityType Name="VacationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PersonelVacation" Relationship="HRVacationModel.FK__PersonelV__Vacat__7D439ABD" FromRole="VacationType" ToRole="PersonelVacation" />
+        </EntityType>
+        <Association Name="FK__PersonelR__Perso__3C69FB99">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1" />
+          <End Role="PersonelRole" Type="Self.PersonelRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelRole">
+              <PropertyRef Name="PersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonelV__Perso__440B1D61">
+          <End Role="Personel" Type="Self.Personel" Multiplicity="1" />
+          <End Role="PersonelVacation" Type="Self.PersonelVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelVacation">
+              <PropertyRef Name="PersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PersonelR__RoleI__3D5E1FD2">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="PersonelRole" Type="Self.PersonelRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRVacationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Personel" EntityType="Self.Personel" />
+          <EntitySet Name="PersonelRole" EntityType="Self.PersonelRole" />
+          <EntitySet Name="PersonelVacation" EntityType="Self.PersonelVacation" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="VacationType" EntityType="Self.VacationType" />
+          <AssociationSet Name="FK__PersonelR__Perso__3C69FB99" Association="Self.FK__PersonelR__Perso__3C69FB99">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelRole" EntitySet="PersonelRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonelV__Perso__440B1D61" Association="Self.FK__PersonelV__Perso__440B1D61">
+            <End Role="Personel" EntitySet="Personel" />
+            <End Role="PersonelVacation" EntitySet="PersonelVacation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonelR__RoleI__3D5E1FD2" Association="Self.FK__PersonelR__RoleI__3D5E1FD2">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="PersonelRole" EntitySet="PersonelRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PersonelV__Vacat__7D439ABD" Association="HRVacationModel.FK__PersonelV__Vacat__7D439ABD">
+            <End Role="VacationType" EntitySet="VacationType" />
+            <End Role="PersonelVacation" EntitySet="PersonelVacation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonelVacation_VacationType" Association="HRVacationModel.FK_PersonelVacation_VacationType">
+            <End Role="VacationType" EntitySet="VacationType" />
+            <End Role="PersonelVacation" EntitySet="PersonelVacation" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="HRVacationModel.sysdiagrams" />
+        </EntityContainer>
+        <Association Name="FK__PersonelV__Vacat__7D439ABD">
+          <End Type="HRVacationModel.VacationType" Role="VacationType" Multiplicity="1" />
+          <End Type="HRVacationModel.PersonelVacation" Role="PersonelVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacationType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelVacation">
+              <PropertyRef Name="VacationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonelVacation_VacationType">
+          <End Type="HRVacationModel.VacationType" Role="VacationType" Multiplicity="1" />
+          <End Type="HRVacationModel.PersonelVacation" Role="PersonelVacation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacationType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PersonelVacation">
+              <PropertyRef Name="VacationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRVacationModelStoreContainer" CdmEntityContainer="HRVacationEntities">
+          <EntitySetMapping Name="Personel">
+            <EntityTypeMapping TypeName="HRVacationModel.Personel">
+              <MappingFragment StoreEntitySet="Personel">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="WorkStartDate" ColumnName="WorkStartDate" />
+                <ScalarProperty Name="WorkEndDate" ColumnName="WorkEndDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonelRole">
+            <EntityTypeMapping TypeName="HRVacationModel.PersonelRole">
+              <MappingFragment StoreEntitySet="PersonelRole">
+                <ScalarProperty Name="PersonelId" ColumnName="PersonelId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RelatedSeniorId" ColumnName="RelatedSeniorId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonelVacation">
+            <EntityTypeMapping TypeName="HRVacationModel.PersonelVacation">
+              <MappingFragment StoreEntitySet="PersonelVacation">
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PersonelId" ColumnName="PersonelId" />
+                <ScalarProperty Name="VacationTypeId" ColumnName="VacationTypeId" />
+                <ScalarProperty Name="VacationStartDate" ColumnName="VacationStartDate" />
+                <ScalarProperty Name="VacationEndDate" ColumnName="VacationEndDate" />
+                <ScalarProperty Name="IsDone" ColumnName="IsDone" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="HRVacationModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VacationType">
+            <EntityTypeMapping TypeName="HRVacationModel.VacationType">
+              <MappingFragment StoreEntitySet="VacationType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HRVacationModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

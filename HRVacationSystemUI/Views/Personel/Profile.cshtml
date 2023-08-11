@@ -1,0 +1,128 @@
+﻿﻿@using HRVacationSystemUI.Models
+@model PersonelViewModel
+@{
+    ViewBag.Title = "Profile";
+    //Layout = "~/Views/Shared/_LayoutBonativo.cshtml";
+    Layout = "~/Views/Shared/_LayoutElement.cshtml";
+
+}
+
+@section hrvacationstyle{
+    <style>
+        div {
+            margin-top: 10px;
+        }
+
+        a {
+            margin: 10px;
+        }
+
+        #picture {
+            margin: 10px;
+            background-color: lightblue;
+        }
+    </style>
+}
+@if (TempData["PersonelUpdate"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["PersonelUpdate"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+@using (Html.BeginForm("Profile", "Personel", FormMethod.Post,
+    new { @class = "form-horizontal",
+            enctype="multipart/form-data"
+    }))
+{
+    <div class="row">
+        <div class="col-6 offset-3 offset-3">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+        </div>
+        <div class="col-6">
+            @if (Model.ProfilePicture == null)
+            {
+                <img src="~/Content/image/indir.png" alt="anonim profile resmi"
+                     style="width:35%" ;height:"35%" />
+            }
+            else
+            {
+                <img src="@Model.ProfilePicture" alt="anonim profile resmi" />
+            }
+
+            @Html.TextBoxFor(x => x.ProfilePictureUpload, new { @class = "form-control", @type = "file",
+           @id = "picture",multiple="false" })
+        </div>
+
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <label>İsim:</label>
+                    @Html.TextBoxFor(x => x.Name, null, new { @type = "text", @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+                <div class="col-6">
+                    @Html.Label("Soyisim:")
+                    @Html.TextBox("Surname", null, new { @type = "text", @class = "form-control", @value = Model.Surname })
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label>Email:</label>
+                    <input type="text" name="Email" value="@Model.Email" class="form-control" readonly disabled />
+
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.Email)
+                </div>
+                <div class="col-6">
+                    @Html.ActionLink("Şifre Değiştir", "ChangePassword", new { id = Model.Id }, new { @class = "btn btn-success" })
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    @Html.LabelFor(x => x.BirthDate)
+                    @Html.TextBoxFor(x => x.BirthDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                </div>
+                <div class="col-6">
+                    <label>Cinsiyet</label>
+                    @Html.DropDownListFor(x => x.GenderPage, (List<SelectListItem>)ViewBag.Genders, new { @class = "form-control" })
+                </div>
+
+            </div>
+
+            @if (Model.WorkStartDate != null)
+            {
+                <div class="row">
+                    <div class="col-6">
+                        <label>İşe Başladığınız Tarih:</label>
+
+                        <input type="date" data-date="@Model.WorkStartDate.Value" data-date-format="YYYY-MM-dd" value="@Model.WorkStartDate.Value.ToString("yyyy-MM-dd")" class="form-control"
+                               disabled>
+
+                    </div>
+
+                    <div class="col-6" style="margin-top:35px">
+                        @{
+                            TimeSpan zamanAraligi = new TimeSpan();
+                            zamanAraligi = DateTime.Now - Model.WorkStartDate.Value;
+                        }
+                        <span sstyle="color:purple;font-weight:bold;"><i>@zamanAraligi.Days gündür çalışmaktasınız </i></span>
+                    </div>
+
+                </div>
+
+            }
+
+            <div style="margin-top:50px;">
+                <button type="submit" class="btn btn-success container">Güncelle</button>
+            </div>
+
+        </div>
+    </div>
+}

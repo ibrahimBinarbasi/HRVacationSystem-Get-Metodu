@@ -1,0 +1,54 @@
+﻿@model HRVacationSystemUI.Models.RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutElement.cshtml";
+
+}
+
+
+<div class="col-md-6">
+    <h1 class="contact_text">KAYIT OLABİLRSİNİZ...</h1>
+    <div class="contact_main">
+        @using (Html.BeginForm("Register", "Login", FormMethod.Post))
+        {
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="mail_section">
+
+                @Html.TextBoxFor(x => x.Name, null, new { @class = "mail_text", placeholder = "İsim" })
+
+                @Html.TextBoxFor(x => x.Surname, null, new { @class = "mail_text", placeholder = "Soyisim" })
+
+                @Html.TextBoxFor(x => x.Email, null, new { @class = "mail_text", placeholder = "Email" })
+                @Html.TextBoxFor(x => x.Password, null, new { @class = "mail_text", placeholder = "Şifre", @type = "password" })
+
+                @Html.TextBoxFor(x => x.ConfirmPassword, null, new { @class = "mail_text", placeholder = "Şifre Tekrarı", @type = "password" })
+
+                @Html.TextBoxFor(x => x.BirthDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "mail_text" }) <br />
+
+                @Html.DropDownListFor(x => x.GenderPage, (List<SelectListItem>)ViewBag.Genders) <br />
+
+                <select>
+                    <option value="volvo">Select elements</option>
+                    <option value="saab">One</option>
+                    <option value="opel">Two</option>
+                    <option value="audi">Three</option>
+                </select>
+
+
+                <div class="send_bt">
+                    <div class="send_text">
+                        <a href="#">SEND</a>
+                        <button type="submit">
+                            KAYIT OL
+                        </button>
+
+                        <input type="submit" id="deneme" value="KAYIT OL Deneme">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="contact_bg"><img src="~/Content/elementTema/images/contact-bg.png"></div>
+</div>

@@ -1,0 +1,77 @@
+﻿﻿@model IEnumerable<HRVacationSystemDL.PersonelVacation>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutElement.cshtml";
+
+}
+
+<h2>İzin Listesi</h2>
+
+
+
+@if (TempData["ApproveErrorMsg"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["ApproveErrorMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ApproveSuccessMsg"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["ApproveSuccessMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+</div>
+
+<p>
+    @Html.ActionLink("Yeni İzin Talebi Oluştur", "CreateVacationRequest", "Vacation", new { @class = "btn btn-primary" })
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>İstek Tarihi </th>
+        <th>İzin Başlangıç Tarihi </th>
+        <th>İzin Bitiş Tarihi</th>
+        <th>İzin Türü</th>
+        <th>Talep Eden Personel </th>
+        <th>İşlem</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.CreatedDate.ToString("dd-MM-yyyy HH:mm"))
+            </td>
+            <td>
+                @item.VacationStartDate.Value.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @item.VacationEndDate.Value.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @item.VacationType.Name
+            </td>
+            <td>
+                @item.Personel.Name @item.Personel.Surname
+            </td>
+            <td>
+                @if (!item.IsApproved.HasValue)
+                {
+                    @Html.ActionLink("ONAYLA", "Approve", "Vacation",
+                   new { id = item.Id, isApproved = true }, new { @class = "btn btn-sm btn-success" })
+
+                    @Html.ActionLink("REDDET", "Approve", "Vacation",
+                   new { id = item.Id, isApproved = false }, new { @class = "btn btn-sm btn-danger" })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

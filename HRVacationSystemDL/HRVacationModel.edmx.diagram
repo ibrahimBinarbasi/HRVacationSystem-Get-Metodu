@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="efabee10028442b48a925be6f076d6b3" Name="Diagram1">
+        <EntityTypeShape EntityType="HRVacationModel.Personel" Width="1.5" PointX="2.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRVacationModel.PersonelRole" Width="1.5" PointX="6.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRVacationModel.PersonelVacation" Width="1.5" PointX="4.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRVacationModel.Role" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRVacationModel.VacationType" Width="1.5" PointX="10.125" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="HRVacationModel.FK__PersonelR__Perso__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="HRVacationModel.FK__PersonelV__Perso__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="HRVacationModel.FK__PersonelR__RoleI__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="HRVacationModel.FK__PersonelV__Vacat__7D439ABD" />
+        <AssociationConnector Association="HRVacationModel.FK_PersonelVacation_VacationType" />
+        <EntityTypeShape EntityType="HRVacationModel.sysdiagrams" Width="1.5" PointX="7.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
